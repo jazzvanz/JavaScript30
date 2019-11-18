@@ -58,6 +58,61 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  // on page load add listener
+  document.addEventListener("DOMContentLoaded", () => {
+    const allKeyElements = Array.from(document.getElementsByClassName("key"))
+    const allAudioElements =  Array.from(document.getElementsByTagName("audio"))
+
+
+    allAudioElements.forEach(function (el) {
+      el.addEventListener('ended', (event) => {
+        // Remove Styles
+        allKeyElements.forEach(element => element.classList.remove("playing"))
+      })
+    })
+
+    listenForKeyDown()
+
+    function listenForKeyDown() {
+
+      // listen to key down
+      document.addEventListener('keydown', stopPlayingActions)
+    }
+
+    function stopPlayingActions(event) {
+      console.log('Removing the playing class for all elements,')
+
+      // Remove Styles
+      allKeyElements.forEach(el => el.classList.remove("playing"))
+
+      // Stop Audio
+      allAudioElements.forEach(el => el.pause())
+
+
+      // Retreive keyCode, call startAction
+      const currentKey = event.keyCode
+      
+      startPlayingActions(currentKey)
+    }
+
+    function startPlayingActions(currentKey) {
+      allKeyElements.forEach(function (el) {
+        const elementValue = el.dataset.key
+ 
+        if(elementValue == currentKey){ 
+          el.classList.add('playing')
+        }
+      })
+
+      allAudioElements.forEach(function (el) {
+        const elementValue = el.dataset.key
+ 
+        if(elementValue == currentKey){ 
+          el.play()
+        }
+      })
+    }
+  })
 
 </script>
 
