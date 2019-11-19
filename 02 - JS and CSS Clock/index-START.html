@@ -89,18 +89,18 @@
     }
 
     function updateHour(currentHour) {
-      const hourHand = document.getElementsByClassName('hour-hand')
-      hourHand[0].setAttribute("style", `transform: rotate(${90 + 30 + (currentHour / 2)}deg);`)
+      const hourHand = document.querySelector('.hour-hand')
+      hourHand.setAttribute("style", `transform: rotate(${((currentHour / 12) * 360) + 90}deg);`)
     }
 
     function updateMinute(currentMinute) {
-      const minuteHand = document.getElementsByClassName('min-hand')
-      minuteHand[0].setAttribute("style", `transform: rotate(${90 + 6 + currentMinute}deg);`)
+      const minuteHand = document.querySelector('.min-hand')
+      minuteHand.setAttribute("style", `transform: rotate(${((currentMinute / 60) * 360) + 90}deg);`)
     }
 
     function updateSecond(currentSecond) {
-      const secondHand = document.getElementsByClassName('second-hand')
-      secondHand[0].setAttribute("style", `transform: rotate(${90 + 6 + currentSecond}deg);`)
+      const secondHand = document.querySelector('.second-hand')
+      secondHand.setAttribute("style", `transform: rotate(${((currentSecond / 60) * 360 + 90)}deg);`)
     }
 
 
