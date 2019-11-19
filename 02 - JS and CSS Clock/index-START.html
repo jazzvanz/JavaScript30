@@ -62,13 +62,49 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all cubic-bezier(0.13, 3.44, 1, 2.51) 0.05s;
     }
 
   </style>
+  
+
 
   <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      window.setInterval(updateClock, 1000)
+    })
+
+    function updateClock() {
+      const currentDate = new Date();
+      const currentHour = currentDate.getHours()
+      const currentMinute = currentDate.getMinutes()
+      const currentSecond = currentDate.getSeconds()
+
+      updateSecond(currentSecond)
+      updateMinute(currentMinute)
+      updateHour(currentHour)
+      console.log('update clock every second', currentHour, currentMinute, currentSecond)
+    }
+
+    function updateHour(currentHour) {
+      const hourHand = document.getElementsByClassName('hour-hand')
+      hourHand[0].setAttribute("style", `transform: rotate(${90 + 30 + (currentHour / 2)}deg);`)
+    }
+
+    function updateMinute(currentMinute) {
+      const minuteHand = document.getElementsByClassName('min-hand')
+      minuteHand[0].setAttribute("style", `transform: rotate(${90 + 6 + currentMinute}deg);`)
+    }
+
+    function updateSecond(currentSecond) {
+      const secondHand = document.getElementsByClassName('second-hand')
+      secondHand[0].setAttribute("style", `transform: rotate(${90 + 6 + currentSecond}deg);`)
+    }
 
 
   </script>
 </body>
 </html>
+
