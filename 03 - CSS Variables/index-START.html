@@ -61,25 +61,17 @@
 
   <script>
     let root = document.documentElement
+    const inputs = document.querySelectorAll('.controls input')
 
-    const spacingValue = document.querySelector('#spacing')
-    const colorValue = document.querySelector('#base')
-    const blurValue = document.querySelector('#blur')
+    function handleUpdate() {
+      const suffix = this.dataset.sizing || ''
+      root.style.setProperty(`--${this.name}`, this.value + suffix)
+    }
 
-    // add to input change listener.active
-    spacingValue.addEventListener('change', (event) => {
-      console.log(event.target.value + 'px')
-      root.style.setProperty('--spacing', event.target.value + 'px')
-    })
-
-    colorValue.addEventListener('change', (event) => {
-      root.style.setProperty('--base', event.target.value)
-    })
-
-    blurValue.addEventListener('change', (event) => {
-      console.log(event.target.value + 'px')
-      root.style.setProperty('--blur', event.target.value + 'px')
-    })
+    inputs.forEach(input => input.addEventListener('change',
+    handleUpdate))
+    inputs.forEach(input => input.addEventListener('mousemove',
+    handleUpdate))
 
   </script>
 
