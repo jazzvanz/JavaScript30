@@ -48,20 +48,16 @@
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
-    inventors.sort(oldestToYoungest)
-
-    function oldestToYoungest(a, b){
-      return a.year - b.year
-    }
-
+    inventors.sort((a, b) => a.year > b.year ? 1: -1)
+    
     console.log(inventors)
 
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live?
 
-    const yearsLived = inventors.reduce(function (accumulator, inventor) {
-      return accumulator + (inventor.passed - inventor.year)
+    const yearsLived = inventors.reduce(function (totalYears, inventor) {
+      return totalYears + (inventor.passed - inventor.year)
     }, 0);
 
     console.log(yearsLived)
@@ -73,7 +69,7 @@
       const lifeSpanCurrentInventor = b.passed - b.year
       const lifeSpanPastInventor = a.passed - a.year
 
-      return lifeSpanCurrentInventor - lifeSpanPastInventor
+      return lifeSpanCurrentInventor > lifeSpanPastInventor ? -1 : 1
     }
 
     console.log(inventors)
