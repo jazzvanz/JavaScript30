@@ -53,12 +53,10 @@
 
     .panel p:first-child {
       transform: translateY(-25vh);
-      transition: all 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11) 0.7s;
     }
 
     .panel p:last-child {
       transform: translateY(25vh);
-      transition: all 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11) 0.7s;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -90,11 +88,11 @@
       flex: 5; 
     }
 
-    .panel.open p:first-child {
+    .panel.open-active p:first-child {
       transform: translateY(0);
     }
 
-    .panel.open p:last-child {
+    .panel.open-active p:last-child {
       transform: translateY(0);
     }
 
@@ -112,7 +110,7 @@
       <p>Take</p>
       <p>Receive</p>
     </div>
-    <div class="panel panel3 open">
+    <div class="panel panel3">
       <p>Experience</p>
       <p>It</p>
       <p>Today</p>
@@ -132,17 +130,21 @@
   <script>
     const panels = document.querySelectorAll('.panel')
 
-    function handleChange(event) {
-      console.log(event.target)
-      if(event.target.classList.contains('open')) {
-        event.target.classList.remove('open')
-      } else {
-        event.target.classList.add('open')
+    function toggleOpen(event) {
+      event.target.classList.toggle('open')
+    }
+
+    function toggleActive(event) {
+      this.classList.add('open--active')
+      if(event.propertyName.includes('flex')) {
+        this.classList.toggle('open-active')
       }
     }
 
     panels.forEach(panel => panel.addEventListener('click',
-    handleChange))
+    toggleOpen))
+    panels.forEach(panel => panel.addEventListener('transitionend',
+    toggleActive))
   </script>
 
 
