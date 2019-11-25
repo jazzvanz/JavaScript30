@@ -33,35 +33,66 @@
   const searchInput = document.querySelector('.search')
   const cityListItemTemplate = document.querySelector('#cityItemTemplate')
   const cityContainer = document.querySelector('.suggestions')
+  
+  searchInput.addEventListener('keyup', displayMatches)
 
-  searchInput.addEventListener('keyup', event => findMatchingCity())
-
-  function findMatchingCity() {
-    const typedValue = searchInput.value
-
-    
-    if (typedValue) {
-      const matchingCities = cities.filter(city => {
-        return city.city.includes(typedValue)
-      })
-
-      if (matchingCities.length > 0 ) {
-        const cityElements = matchingCities.map(city => {
-          const templateClone = document.importNode(cityListItemTemplate.content, true)
-          templateClone.querySelector('.name').textContent = city.city
-          templateClone.querySelector('.population').textContent = city.population
-
-          return templateClone     
-        })
-
-        cityContainer.innerHTML = ""
-
-        cityElements.forEach(element => {
-          cityContainer.append(element)
-        })
-      }
-    }
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
+
+  function displayMatches() {
+    const matchArray = findMatches(this.value, cities)
+
+    const html = matchArray.map(place => {
+      const regex = new RegExp(this.value, 'gi')
+      const cityName = place.city.replace(regex,`<span class="hl">${this.value}</span>`)
+      const stateName = place.state.replace(regex,`<span class="hl">${this.value}</span>`)
+
+      return `
+        <li>
+          <span class="name">${cityName}, ${stateName}</span>
+          <span class="population">${numberWithCommas(place.population)}</span>
+        </li>
+      `
+    }).join('')
+    cityContainer.innerHTML = html
+    
+  }
+
+  function findMatches(wordToMatch, cities) {
+    return cities.filter(place => {
+      const regex = new RegExp(wordToMatch, 'gi')
+      return place.city.match(regex) || place.state.match(regex)
+    })
+  }
+
+  // my Answer
+
+  // function findMatchingCity() {
+  //   const typedValue = searchInput.value
+
+  //   if (typedValue) {
+  //     const matchingCities = cities.filter(city => {
+  //       return city.city.includes(typedValue)
+  //     })
+
+  //     if (matchingCities.length > 0 ) {
+  //       const cityElements = matchingCities.map(city => {
+  //         const templateClone = document.importNode(cityListItemTemplate.content, true)
+  //         templateClone.querySelector('.name').textContent = city.city
+  //         templateClone.querySelector('.population').textContent = city.population
+
+  //         return templateClone     
+  //       })
+
+  //       cityContainer.innerHTML = ""
+
+  //       cityElements.forEach(element => {
+  //         cityContainer.append(element)
+  //       })
+  //     }
+  //   }
+  // }
 
 </script>
 </body>
