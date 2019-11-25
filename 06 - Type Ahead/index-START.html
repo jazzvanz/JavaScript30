@@ -17,23 +17,13 @@
 <script>
   const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
-  let cities = []
-  const xhr = new XMLHttpRequest()
-  
-  xhr.onload = function () {
-    if (xhr.status >= 200 && xhr.status < 300) {
-      cities = xhr.response
-    } else {
-      console.log('this did not work')
-    }
-    console.log(cities)
-  }
+  const cities = []
 
-  xhr.open('GET', endpoint)
-  xhr.send()
+  fetch(endpoint)
+    .then(fullResponse => fullResponse.json())
+    .then(data => cities.push(...data))
   
-  // ajax get request.
-
+  console.log(cities)
 
 </script>
 </body>
