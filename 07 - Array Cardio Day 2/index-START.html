@@ -28,8 +28,7 @@
     // Array.prototype.some() // is at least one person 19 or older?
 
     function isAdult(element, index, array) {
-      const currentDate = new Date()
-      const currentYear = currentDate.getFullYear()
+      const currentYear = new Date().getFullYear()
       return currentYear - element.year >= 19
     }
 
