@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Console Tricks!</title>
+  <title>Console Tricks! - Ours</title>
 </head>
 <body>
 
@@ -10,7 +10,7 @@
 
   <script>
     const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
-
+    const p = document.querySelector('p');
     function makeGreen() {
       const p = document.querySelector('p');
       p.style.color = '#BADA55';
@@ -18,28 +18,70 @@
     }
 
     // Regular
+    console.log('Yes, Hello')
 
     // Interpolated
+    console.log('hello I am a %s but I am no longer here', 'funguy')
 
     // Styled
+    console.log(`%c I am looking forward to the pie today`, `font-size: 30px; color: pink; background-color: aqua;`)
 
     // warning!
+    console.warn('Oh no, this has stopped working')
 
     // Error :|
+    console.error('super oh no, both have a stack trace')
 
     // Info
+    console.info('a pack of pugs is called a grumble')
 
     // Testing
+    console.assert( 1 === 2, 'you did not select the right element' )
+    console.assert( 1 === 1, 'nothing will show because this is correct' )
+
 
     // clearing
+    console.clear()
 
     // Viewing DOM Elements
+    console.log(p)
+    console.dir(p)
 
     // Grouping together
+    dogs.forEach(dog => {
+      console.groupCollapsed(`${dog.name}`)
+
+      console.log(`this is ${dog.name}`)
+      console.log(`${dog.name} is ${dog.age} years old`)
+      console.log(`${dog.name} is ${dog.age * 7} in dog years`)
+
+      console.groupEnd(`${dog.name}`)
+    })
+
 
     // counting
+    console.count('Adam')
+    console.count('Wes')
+    console.count('Wes')
+    console.count('Adam')
+    console.count('Wes')
+    console.count('Wes')
+    console.count('Adam')
+    console.count('Wes')
+
 
     // timing
+    console.time('fetching data')
+
+    fetch('https://api.github.com/users/jazzvanz')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data')
+        console.log(data)
+      })
+
+      console.table(dogs)
+
 
   </script>
 </body>
