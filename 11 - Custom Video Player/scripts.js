@@ -9,57 +9,67 @@ const skipButtons = videoPlayer.querySelectorAll(`[data-skip]`)
 const ranges = videoPlayer.querySelectorAll(`.player__slider`)
 
 
-console.log(videoPlayer, video, playPauseButton, ranges, skipButtons, progressBar, progress)
-
 // Build out our Functions
 
-
-// Hook up the event Listners
-
-// 1. Just the play/Pause Button
-playPauseButton.addEventListener('click', (e) => {
+// Play/Pause Video
+function togglePlay() {
   if(video.paused) {
     video.play()
   } else {
     video.pause()
   }
-})
+}
+
+// Update Play/Pause button icon
+function updateButton() {
+  const icon = this.paused ? '►' : '❚ ❚';
+  playPauseButton.textContent = icon
+}
+
+//Skip around the video
+function skip() {
+  video.currentTime += parseFloat(this.dataset.skip);
+}
+
+// Handle Volume & 
+function handleRangeEvent() {
+  video[this.name] = this.value
+}
+
+//Update progressbar
+function handleProgress() {
+  const progressPrecent = (video.currentTime / video.duration) * 100
+  progressBar.style.flexBasis = `${progressPrecent}%`
+}
+
+//Scrub Bar
+function scrub(e) {
+  const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
+  video.currentTime = scrubTime
+}
+// Hook up the event Listners
+
+// 1. Just the play/Pause Button
+playPauseButton.addEventListener('click', togglePlay)
+video.addEventListener('click', togglePlay)
+
+// Update play/pause button to reflect play/pause status
+video.addEventListener('play', updateButton)
+video.addEventListener('pause', updateButton)
 
 // 2. Volume and Range Bars
-ranges.forEach(range => {
-  range.addEventListener('change', (e) => {
-    const rangeValue = e.target.value
-    if(e.target.getAttribute('name') === 'playbackRate') {
-      video.playbackRate = rangeValue
-    } else if(e.target.getAttribute('name') === 'volume') {
-      video.volume = rangeValue
-    } else {
-      return
-    }
-  })
-})
+ranges.forEach(range => range.addEventListener('change', handleRangeEvent))
+ranges.forEach(range => range.addEventListener('mousemove', handleRangeEvent))
 
 // 3. Skip back 10 second, skip forward 25 seconds. 
-skipButtons.forEach(skipButton => {
-  skipButton.addEventListener('click', (e) => {
-    const skipAmount = parseInt(e.target.getAttribute('data-skip'))
-    const currentVideoTime = video.currentTime
-
-    if(skipAmount) {
-      video.currentTime = currentVideoTime + skipAmount
-    } else {
-      return
-    }
-  })
-})
+skipButtons.forEach(skipButton => skipButton.addEventListener('click', skip))
 
 // 4. Update Progress Bar
-// get the total duration of the video. Divide that by 100 then update the bar every second.
-// listern for when a video is playing
+video.addEventListener('timeupdate', handleProgress)
 
-
-
-// 5. When you click screen
-
-// 6. refactor into reuseable functions.
-
+// 5. Run Scrub on click of Progress Bar
+let mousedown = false
+progress.addEventListener('click', scrub)
+progress.addEventListener('mousemove', (e) => mousedown && scrub(e))
+progress.addEventListener('mousedown', () => mousedown = true)
+progress.addEventListener('mouseup', () => mousedown = false)
