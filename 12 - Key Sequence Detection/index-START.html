@@ -2,11 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Key Detection</title>
+  <title>Key Detection - ours</title>
   <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
 </head>
 <body>
 <script>
+  const pressedKeys = []
+  const correctCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'a', 'b', 'Enter']
+
+  document.addEventListener('keydown', (event) => {
+    pressedKeys.push(event.key)
+    pressedKeys.splice(-correctCode.length -1, pressedKeys.length - correctCode.length)
+
+    if(pressed.join('').includes(correctCode)) {
+      cornify_add()
+    }
+  })
 </script>
 </body>
 </html>
