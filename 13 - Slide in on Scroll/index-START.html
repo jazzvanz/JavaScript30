@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Document - Ours</title>
 </head>
 <body>
 
@@ -57,6 +57,22 @@
         if (callNow) func.apply(context, args);
       };
     }
+
+    const images = document.querySelectorAll('.slide-in')
+    let currentPosition = 0
+
+    document.addEventListener('scroll', () => {
+      currentPosition = window.pageYOffset
+      images.forEach((imageItem) =>{
+        const location = imageItem.offsetTop;
+        if(currentPosition >= location) {
+          imageItem.setAttribute('style', 'transform: translateX(0); opacity: 1;')
+        }
+      })
+    })
+
+
+
 
   </script>
 
