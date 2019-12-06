@@ -58,21 +58,27 @@
       };
     }
 
-    const images = document.querySelectorAll('.slide-in')
-    let currentPosition = 0
+    const sliderImages = document.querySelectorAll('.slide-in')
 
-    document.addEventListener('scroll', () => {
-      currentPosition = window.pageYOffset
-      images.forEach((imageItem) =>{
-        const location = imageItem.offsetTop;
-        if(currentPosition >= location) {
-          imageItem.setAttribute('style', 'transform: translateX(0); opacity: 1;')
+    function checkSlide(event) {
+
+
+      sliderImages.forEach(imageItem => {
+        const slideInAt = (window.scrollY + window.innerHeight) - imageItem.height / 2
+        const imageBottom = imageItem.offsetTop + imageItem.height
+        const isHalfShown = slideInAt > imageItem.offsetTop
+        const isNotScrolledPast = window.scrollY < imageBottom
+
+        if(isHalfShown && isNotScrolledPast) {
+          imageItem.classList.add('active')
+        } else {
+          imageItem.classList.remove('active')
         }
       })
-    })
+    }
 
-
-
+    window.addEventListener('scroll', debounce(checkSlide))
+  
 
   </script>
 
