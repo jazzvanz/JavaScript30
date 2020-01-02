@@ -34,15 +34,23 @@
   const itemsList = document.querySelector('.plates');
   const items = [];
 
-  // on submit of the form
-  addItems.addEventListener('submit', (event) => {
+  function addItem(event) {
     event.preventDefault()
-    const item = document.querySelector('input[name="item"]').value
-    items.push(item)
-    addItems.reset()
+    const text = this.querySelector('[name=item]')
+    const item = {
+      name: 
 
-    updateList(items)
-  })
+    }
+    console.log('working')
+  }
+
+  // on submit of the form
+  addItems.addEventListener('submit', addItem(event))
+    // const item = document.querySelector('input[name="item"]').value
+    // items.push(item)
+    // addItems.reset()
+
+    // updateList(items)
   
   function updateList(items) {
     items.forEach((element, index) => {
