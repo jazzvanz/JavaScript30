@@ -27,49 +27,49 @@
 
 <script>
 
-  // local storage
-  // event delegration aka bubbling up events
-  // add an event to something that doesnt exist aka to something it will be inside
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const items = JSON.parse(localStorage.getItem('items')) || []
 
   function addItem(event) {
-    event.preventDefault()
-    const text = this.querySelector('[name=item]')
+    event.preventDefault(event)
+    const text = (this.querySelector(`[name='item']`)).value
     const item = {
-      name: 
-
+      text,
+      done: false
     }
-    console.log('working')
+    items.push(item)
+
+    populateList(items, itemsList)
+    localStorage.setItem('items', JSON.stringify(items))
+
+    this.reset()
   }
 
-  // on submit of the form
-  addItems.addEventListener('submit', addItem(event))
-    // const item = document.querySelector('input[name="item"]').value
-    // items.push(item)
-    // addItems.reset()
-
-    // updateList(items)
-  
-  function updateList(items) {
-    items.forEach((element, index) => {
-      const listItem = document.createElement('li')
-
-      const listInput = document.createElement('input')
-      listInput.setAttribute('type', 'checkbox')
-      listInput.setAttribute('data-index', `${index}`)
-      listInput.setAttribute('id', `item${index}`)
-
-      const listLabel = document.createElement('label')
-      listLabel.setAttribute('for', `item${index}`)
-      listLabel.textContent = element
-      listItem.appendChild(listLabel)
-      listItem.appendChild(listInput)
-
-      itemsList.innerHTML = listItem
-    })
+  function populateList(plates = [], platesList) {
+    platesList.innerHTML = plates.map((plate, i) => {
+      return `
+        <li>
+          <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''} /> 
+          <label for="item${i}">${plate.text}</label>
+        </li>
+      `
+    }).join('')
   }
+
+  function toggleDone(event) {
+    if (!event.target.matches('input')) return
+    const element = event.target
+    const index = element.dataset.index
+    items[index].done = !items[index].done
+    localStorage.setItem('items', JSON.stringify(items))
+    populateList(items, itemsList)
+  }
+
+  addItems.addEventListener('submit', addItem)
+  itemsList.addEventListener('click', toggleDone)
+  populateList(items, itemsList)
+
 </script>
 
 
