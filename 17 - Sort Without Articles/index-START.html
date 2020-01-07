@@ -48,6 +48,33 @@
 <script>
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 
+const ignoreList = ['the', 'an', 'a'];
+
+const compare = function(a, b) {
+  const aArray = a.toLowerCase().split(' ')
+  const bArray = b.toLowerCase().split(' ')
+
+  /// remove matching items to the ignore list
+  const filteredArray = aArray.filter(function (item, index, ignoreList) {
+    ignoreList.forEach(element => {
+      console.log(item, element)
+      if (item === element) {
+        console.log('winner')
+        return item
+      } else {
+        console.log('no winner')
+        return
+      }
+    })
+  })
+  console.log(ignoreList, aArray, filteredArray)
+}
+
+bands.sort(compare)
+// How to not include some words.
+
+console.log(bands)
+
 
 </script>
 
